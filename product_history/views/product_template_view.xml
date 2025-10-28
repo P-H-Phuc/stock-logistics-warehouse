@@ -39,7 +39,7 @@
             <group name="ConsumptionMove" position="after">
                 <group
                     name="ConsumptionHistory"
-                    attrs="{'invisible': [('consumption_calculation_method','!=','history')]}"
+                    invisible="consumption_calculation_method != 'history'"
                 >
                     <field name="number_of_periods" />
                     <field name="total_consumption" />
