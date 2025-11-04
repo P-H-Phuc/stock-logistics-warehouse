@@ -17,11 +17,11 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class StockScrapOrigin(models.Model):
-    _name = 'stock.scrap.origin'
-    _description = 'The origin of the scrap'
+    _name = "stock.scrap.origin"
+    _description = "The origin of the scrap"
 
     name = fields.Char()

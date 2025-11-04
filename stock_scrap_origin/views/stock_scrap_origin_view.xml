@@ -4,8 +4,11 @@
         <field name="inherit_id" ref="stock.stock_scrap_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//group/div" position="after">
-                <field name="scrap_origin_id" attrs="{'required': [('scrap_origin_required', '=', True)]}"/>
-                <field name="scrap_origin_required" invisible="1"/>
+                <field
+                    name="scrap_origin_id"
+                    attrs="{'required': [('scrap_origin_required', '=', True)]}"
+                />
+                <field name="scrap_origin_required" invisible="1" />
             </xpath>
         </field>
     </record>
@@ -14,8 +17,11 @@
         <field name="inherit_id" ref="stock.stock_scrap_form_view2" />
         <field name="arch" type="xml">
             <xpath expr="//group/div" position="after">
-                <field name="scrap_origin_id" attrs="{'required': [('scrap_origin_required', '=', True)]}"/>
-                <field name="scrap_origin_required" invisible="1"/>
+                <field
+                    name="scrap_origin_id"
+                    attrs="{'required': [('scrap_origin_required', '=', True)]}"
+                />
+                <field name="scrap_origin_required" invisible="1" />
             </xpath>
         </field>
     </record>
@@ -24,7 +30,7 @@
         <field name="model">stock.scrap.origin</field>
         <field name="arch" type="xml">
             <tree editable="top">
-                <field name="name"/>
+                <field name="name" />
             </tree>
         </field>
     </record>
@@ -41,6 +47,6 @@
         id="menu_stock_scrap_origin"
         sequence="10"
         action="action_stock_scrap_origin"
-        parent="stock.menu_stock_config_settings"/>
-
+        parent="stock.menu_stock_config_settings"
+    />
 </odoo>
