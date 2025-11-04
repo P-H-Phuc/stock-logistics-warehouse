@@ -50,7 +50,8 @@ class StockScrapProductWizard(models.TransientModel):
     _description = "Wizard for Scrap Report"
 
     company_id = fields.Many2one(
-        comodel_name="res.company", default=lambda self: self.env.user.company_id.id
+        comodel_name="res.company",
+        default=lambda self: self.env.company.id,
     )
     start_date = fields.Datetime(required=True)
     end_date = fields.Datetime(required=True)
@@ -62,42 +63,52 @@ class StockScrapProductWizard(models.TransientModel):
         help="Use compute fields, so there is nothing store in database",
     )
 
-    @api.multi
+    @api.depends("start_date", "end_date", "company_id")
     def _compute_results(self):
-        self.ensure_one()
         ReportLine = self.env["stock.scrap.product.wizard.view"]
-        move_lines = self.get_scrap_move_lines(self.start_date, self.end_date)
-        for move_line in move_lines:
-            product = move_line.product_id.with_context(
-                dict(
-                    to_date=move_line.date, company_owned=True, create=False, edit=False
+        for wizard in self:
+            move_lines = wizard.get_scrap_move_lines(wizard.start_date, wizard.end_date)
+            report_lines = False
+            for move_line in move_lines:
+                product = move_line.product_id.with_context(
+                    to_date=move_line.date,
+                    company_owned=True,
+                    create=False,
+                    edit=False,
                 )
-            )
-            standard_price = product.get_history_price(
-                self.env.user.company_id.id, date=move_line.date
-            )
-            line = self.parse_line(
-                product, standard_price, move_line.qty_done, move_line.date, move_line
-            )
-            self.results += ReportLine.new(line)
+                standard_price = product._price_compute(
+                    "standard_price",
+                    date=move_line.date,
+                )[product.id]
+                line = wizard.parse_line(
+                    product,
+                    standard_price,
+                    move_line.quantity,
+                    move_line.date,
+                    move_line,
+                )
+                report_lines = ReportLine.create(line).ids
+            wizard.results = report_lines
 
     @api.model
     def parse_line(self, product, standard_price, qty, date, move_line):
+        product = self.env["product.product"].browse(product.id)
+        move_line = self.env["stock.move.line"].browse(move_line.id)
         line = {
             "name": product.name,
             "reference": product.default_code,
             "barcode": product.barcode,
             "qty_at_date": qty,
-            "uom_id": product.uom_id,
-            "currency_id": product.currency_id,
-            "cost_currency_id": product.cost_currency_id,
+            "uom_id": product.uom_id.id,
+            "currency_id": product.currency_id.id,
+            "cost_currency_id": product.cost_currency_id.id,
             "standard_price": standard_price,
             "stock_value": qty * standard_price,
             "cost_method": product.cost_method,
             "categ_name": product.categ_id.name,
             "date": date,
             "origin": ", ".join(
-                move_line.mapped("move_id.scrap_ids.scrap_origin_id.name")
+                move_line.mapped("move_id.scrap_id.scrap_origin_id.name")
             ),
         }
         return line
@@ -125,6 +136,6 @@ class StockScrapProductWizard(models.TransientModel):
     def button_export_xlsx(self):
         self.ensure_one()
         action = self.env.ref(
-            "stock_scrap_product_report." "action_stock_scrap_report_xlsx"
+            "stock_scrap_product_report.action_stock_scrap_report_xlsx"
         )
         return action.report_action(self, config=False)
