@@ -20,10 +20,10 @@
 {
     "name": "Stock Scrap Origin",
     "summary": "Add the origin of the scrap.",
-    "version": "12.0.1.0.1",
+    "version": "18.0.1.0.1",
     "category": "Warehouse",
     "website": "https://github.com/OCA/stock-logistics-warehouse",
-    "author": "Trobz",
+    "author": "Trobz, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "depends": [
         "stock",

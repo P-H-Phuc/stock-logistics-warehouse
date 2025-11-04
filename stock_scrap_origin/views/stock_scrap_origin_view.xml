@@ -6,9 +6,9 @@
             <xpath expr="//group/div" position="after">
                 <field
                     name="scrap_origin_id"
-                    attrs="{'required': [('scrap_origin_required', '=', True)]}"
+                    required="scrap_origin_required"
+                    readonly="state == 'done'"
                 />
-                <field name="scrap_origin_required" invisible="1" />
             </xpath>
         </field>
     </record>
@@ -17,11 +17,7 @@
         <field name="inherit_id" ref="stock.stock_scrap_form_view2" />
         <field name="arch" type="xml">
             <xpath expr="//group/div" position="after">
-                <field
-                    name="scrap_origin_id"
-                    attrs="{'required': [('scrap_origin_required', '=', True)]}"
-                />
-                <field name="scrap_origin_required" invisible="1" />
+                <field name="scrap_origin_id" required="scrap_origin_required" />
             </xpath>
         </field>
     </record>
@@ -29,17 +25,16 @@
         <field name="name">view_stock_scrap_origin_form</field>
         <field name="model">stock.scrap.origin</field>
         <field name="arch" type="xml">
-            <tree editable="top">
+            <list editable="top">
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="action_stock_scrap_origin" model="ir.actions.act_window">
         <field name="name">Stock Scrap Origins</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">stock.scrap.origin</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

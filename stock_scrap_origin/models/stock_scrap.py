@@ -18,7 +18,7 @@
 ##############################################################################
 
 from odoo import api, fields, models
-from odoo.tools import safe_eval
+from odoo.tools.safe_eval import safe_eval
 
 
 class StockScrap(models.Model):
@@ -27,7 +27,6 @@ class StockScrap(models.Model):
     scrap_origin_id = fields.Many2one(
         comodel_name="stock.scrap.origin",
         string="Origin",
-        states={"done": [("readonly", True)]},
     )
     scrap_origin_required = fields.Boolean(compute="_compute_scrap_origin_required")
 
