@@ -12,7 +12,7 @@
                     name="view_history"
                     string="View Product History"
                     type="object"
-                    icon="fa-history fa-2x"
+                    icon="fa-history"
                 />
             </field>
         </field>
@@ -21,7 +21,7 @@
     <record id="view_product_history_tree" model="ir.ui.view">
         <field name="model">product.history</field>
         <field name="arch" type="xml">
-            <tree string="Product History" edit="false" create="false" delete="false">
+            <list string="Product History" edit="false" create="false" delete="false">
                 <field name="product_id" />
                 <field name="from_date" />
                 <field name="to_date" />
@@ -33,10 +33,9 @@
                 <field name="incoming_qty" />
                 <field name="outgoing_qty" />
                 <field name="virtual_qty" />
-                <field name="ignored" invisible="1" />
                 <button
                     name="ignore_line_cpo"
-                    attrs="{'invisible': [('ignored','=',True)]}"
+                    invisible="ignored"
                     type="object"
                     class="text-success"
                     icon="fa-check-circle"
@@ -44,13 +43,13 @@
                 />
                 <button
                     name="unignore_line_cpo"
-                    attrs="{'invisible': [('ignored','=',False)]}"
+                    invisible="not ignored"
                     type="object"
                     class="text-danger"
                     icon="fa-times-circle"
                     string="This history line is active. Click this button to reactivate it."
                 />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -58,8 +57,7 @@
         <field name="name">View Product History</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.history</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">list</field>
         <field name="view_id" ref="product_history_for_cpo.view_product_history_tree" />
         <field name="target">new</field>
         <field name="domain">[]</field>

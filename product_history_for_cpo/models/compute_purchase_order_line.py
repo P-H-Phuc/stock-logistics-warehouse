@@ -4,21 +4,20 @@
 #    @author Julien WESTE
 #    @author Sylvain LE GAL (https://twitter.com/legalsylvain)
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class ComputedPurchaseOrderLine(models.Model):
     _inherit = "computed.purchase.order.line"
 
     # Columns section
-    displayed_product_history_ids = fields.Many2many(
+    displayed_product_history_ids = fields.One2many(
         "product.history",
         related="product_id.product_history_ids",
         string="Product History",
     )
 
     # Private section
-    @api.multi
     def view_history(self):
         action = self.env.ref("product_history_for_cpo.action_view_history").read()[0]
         ids = []
