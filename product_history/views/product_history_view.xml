@@ -14,7 +14,12 @@
     <record id="view_product_history_tree" model="ir.ui.view">
         <field name="model">product.history</field>
         <field name="arch" type="xml">
-            <list edit="false" create="false" delete="false">
+            <list
+                edit="false"
+                create="false"
+                delete="false"
+                class="o_product_history_list"
+            >
                 <field name="history_range" />
                 <field name="product_id" />
                 <field name="from_date" />
@@ -27,7 +32,6 @@
                 <field name="incoming_qty" />
                 <field name="outgoing_qty" />
                 <field name="virtual_qty" />
-                <field name="ignored" invisible="1" />
                 <button
                     name="ignore_line"
                     invisible="ignored"

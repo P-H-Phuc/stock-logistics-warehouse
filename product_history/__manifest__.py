@@ -18,6 +18,11 @@
         "product_average_consumption",
         "queue_job",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "product_history/static/src/scss/product_history.scss",
+        ],
+    },
     "data": [
         "security/product_history_security.xml",
         "security/ir.model.access.csv",
