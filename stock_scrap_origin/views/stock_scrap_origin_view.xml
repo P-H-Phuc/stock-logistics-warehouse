@@ -1,0 +1,47 @@
+<odoo>
+    <record id="stock_scrap_form_view_inherit" model="ir.ui.view">
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//group/div" position="after">
+                <field
+                    name="scrap_origin_id"
+                    required="scrap_origin_required"
+                    readonly="state == 'done'"
+                />
+            </xpath>
+        </field>
+    </record>
+    <record id="stock_scrap_form_view2_inherit" model="ir.ui.view">
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_form_view2" />
+        <field name="arch" type="xml">
+            <xpath expr="//group/div" position="after">
+                <field name="scrap_origin_id" required="scrap_origin_required" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_stock_scrap_origin_form" model="ir.ui.view">
+        <field name="name">view_stock_scrap_origin_form</field>
+        <field name="model">stock.scrap.origin</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+    <record id="action_stock_scrap_origin" model="ir.actions.act_window">
+        <field name="name">Stock Scrap Origins</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.scrap.origin</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        name="Stock Scrap Origins"
+        id="menu_stock_scrap_origin"
+        sequence="10"
+        action="action_stock_scrap_origin"
+        parent="stock.menu_stock_config_settings"
+    />
+</odoo>
